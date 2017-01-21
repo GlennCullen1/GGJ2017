@@ -22,6 +22,12 @@ public class ScoreManager : MonoBehaviour {
 		if (playerID - 1 > -1) {
 			playerScores [playerID - 1] += increaseValue;
 			playerScoreOutput [playerID - 1].text = playerScores [playerID - 1].ToString();
+			if (playerScores [playerID - 1] >= 1000) {
+				GameObject manager = GameObject.FindGameObjectWithTag ("Manager");
+				if (manager != null) {
+					manager.GetComponent<GameStateManager> ().EndGame (playerID);
+				}
+			}
 		} else {
 			Debug.Log ("Error, failed to zero index player ID correctly");
 		}
