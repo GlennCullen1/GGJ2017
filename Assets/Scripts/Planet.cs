@@ -83,6 +83,10 @@ public class Planet : MonoBehaviour {
 		} else if (health < 10 && state != PlanetState.SmallAsteroid) {
 			state = PlanetState.SmallAsteroid;
 		}
+
+		if (health == 0) {
+			Destroy (gameObject);
+		}
 	}
 }
 

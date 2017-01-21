@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
 	public int[] playerScores;
+	public Text[] playerScoreOutput;
+
 	// Use this for initialization
 	void Start () {
 		playerScores = new int[4];
@@ -18,6 +21,7 @@ public class ScoreManager : MonoBehaviour {
 	{
 		if (playerID - 1 > -1) {
 			playerScores [playerID - 1] += increaseValue;
+			playerScoreOutput [playerID - 1].text = playerScores [playerID - 1].ToString();
 		} else {
 			Debug.Log ("Error, failed to zero index player ID correctly");
 		}
