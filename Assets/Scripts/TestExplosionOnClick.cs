@@ -3,15 +3,18 @@ using System.Collections;
 
 public class TestExplosionOnClick : MonoBehaviour {
 
- public float distance = 20f;
+public float distance = 20f;
+	public float radius = 5.0f;
+	public float power = 500.0f;
 
+public GameObject blastWave;
 
 void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("BOOM");
-            CauseExplosionAtPoint(CastRayToWorld(Input.mousePosition), 5.0f, 500.0f);
+			CauseExplosionAtPoint(CastRayToWorld(Input.mousePosition),radius,power);
         }
     }
 
@@ -24,7 +27,7 @@ void Update()
         return point;
      }
 
-    void CauseExplosionAtPoint(Vector3 point, float explosionRadius, float power)
+ public void CauseExplosionAtPoint(Vector3 point, float explosionRadius, float power)
     {
         var planetLayer = 1 << LayerMask.NameToLayer("Planets");
         Collider[] colliders = Physics.OverlapSphere(point, explosionRadius, planetLayer);
@@ -36,5 +39,7 @@ void Update()
                 Debug.Log("Explosion Expected " +rb.gameObject.name);
                 rb.AddExplosionForce(power, point, explosionRadius,0.0F);
         }
+		point.y = 10;
+		Instantiate (blastWave, point, Quaternion.identity);
     }
 }

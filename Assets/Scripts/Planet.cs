@@ -11,7 +11,9 @@ public class Planet : MonoBehaviour {
 	public PlanetState state = PlanetState.Planet;
 	public float spawnTime = 0.2f;
 	public Vector3 spawnPosition;
-
+	public GameObject LargeAsteroid;
+	public GameObject SmallAsteroid;
+	GameObject currentAsteroid;
 	ScoreManager scoreManager; 
 	bool beingDestroyed = false;
 	Rigidbody rb;
@@ -25,6 +27,7 @@ public class Planet : MonoBehaviour {
 		tempColor.a = tempColor.a / 2;
 		gameObject.GetComponent<MeshRenderer> ().material.color = tempColor;
 		transform.position = new Vector3 (0, 0, 0);
+		rb.angularVelocity = new Vector3(0,0,Random.Range (0.5f, 2f));
 		StartCoroutine (Spawn ());
 	}
 
@@ -114,10 +117,23 @@ public class Planet : MonoBehaviour {
 
 	void SetSize(int Health)
 	{
-		if (health < 20 && state != PlanetState.LargeAsteroid) {
+		if (health < 20 && health >10 && state != PlanetState.LargeAsteroid) {
+			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			state = PlanetState.LargeAsteroid;
+			currentAsteroid = (GameObject)Instantiate (LargeAsteroid, transform.position, Quaternion.identity);
+			currentAsteroid.transform.parent = gameObject.transform;
+			currentAsteroid.transform.localScale = new Vector3 (1, 1, 1);
+			//currentAsteroid.transform.localPosition = Vector3.zero;
+			GetComponent<SphereCollider> ().radius = 0.0032f;
+
 		} else if (health < 10 && state != PlanetState.SmallAsteroid) {
 			state = PlanetState.SmallAsteroid;
+			Destroy (currentAsteroid);
+			currentAsteroid = (GameObject)Instantiate (SmallAsteroid, transform.position, Quaternion.identity);
+			currentAsteroid.transform.parent = gameObject.transform;
+			currentAsteroid.transform.localScale = new Vector3 (2, 2, 2);
+			//currentAsteroid.transform.localPosition = Vector3.zero;
+			GetComponent<SphereCollider> ().radius = 0.0018f;
 		}
 
 		if (health == 0) {
