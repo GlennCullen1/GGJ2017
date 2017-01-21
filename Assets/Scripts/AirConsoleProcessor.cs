@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class AirConsoleProcessor : MonoBehaviour {
 
+    public TestExplosionOnClick explosionScript;
+
 	// Use this for initialization
 	void Awake () {
         AirConsole.instance.onReady += OnReady;
@@ -28,7 +30,15 @@ public class AirConsoleProcessor : MonoBehaviour {
             case "move":
                 int pos_x = (int)data["clickPos"]["pos_x"];
                 int pos_y = (int)data["clickPos"]["pos_y"];
-                Debug.Log("POSITION RECIEVED: " + pos_x + ", " + pos_y);
+                int maxWidth = (int)data["screenSize"]["divWidth"];
+                int maxHeight = (int)data["screenSize"]["divHeight"];
+                Debug.Log("POSITION RECIEVED: " + pos_x + "/" + maxWidth + ", " + pos_y + "/" + maxHeight);
+
+                Vector3 screenCoords = new Vector3(
+                    ((float)pos_y / (float)maxHeight) * Screen.width,
+                    ((float)pos_x / (float)maxWidth) * Screen.height,
+                    0f);
+                explosionScript.CauseExplosionAtPoint(explosionScript.CastRayToWorld(screenCoords), explosionScript.radius, explosionScript.power);
                 break;
             default:
                 break;

@@ -6,6 +6,10 @@
   
   <style type=text/css>
   
+    body{
+      background: #000000;
+      }
+
   .button{
    background: #3B3B3B;
    color: white;
@@ -27,6 +31,12 @@
       top: 0;
       bottom: 0;
       text-align: center;
+  }
+
+    img.make-it-fit{
+        max-height: 99%;
+        max-width: 99%;
+        
   }
 
   .button-fit{
@@ -193,10 +203,13 @@
      App.prototype.point_it = function (event) {
          pos_x = event.offsetX ? (event.offsetX) : event.pageX - document.getElementById("pointer_div").offsetLeft;
          pos_y = event.offsetY ? (event.offsetY) : event.pageY - document.getElementById("pointer_div").offsetTop;
+         var divWidth = document.getElementById("pointer_div").offsetWidth;
+         var divHeight = document.getElementById("pointer_div").offsetHeight;
 
          var message_action = {
              'action': 'move',
-             'clickPos': { 'pos_x' : pos_x, 'pos_y' : pos_y }
+             'clickPos': { 'pos_x': pos_x, 'pos_y': pos_y },
+             'screenSize': { 'divHeight': divHeight, 'divWidth': divWidth}
          };
 
          this.airconsole.message(AirConsole.Screen, message_action);
@@ -234,8 +247,9 @@
         
     </div>-->
 
-    <div class="div-fillscreen">
-        <button class="button button-fit" id="pointer_div" onclick="window.app.point_it(event)">LOCATION BUTTON</button>
+    <div class="div-fillscreen" id="pointer_div" onclick="window.app.point_it(event)">
+        <!--<button class="button button-fit" id="pointer_div" onclick="window.app.point_it(event)">LOCATION BUTTON</button>-->
+        <img class="make-it-fit" src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBackground.png" />
     </div>
 
     <div id ="profile-pic"></div>

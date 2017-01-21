@@ -19,7 +19,7 @@ void Update()
     }
 
 
- Vector3 CastRayToWorld(Vector3 coords)
+ public Vector3 CastRayToWorld(Vector3 coords)
      {
         Ray ray = Camera.main.ScreenPointToRay(coords);
         Vector3 point = ray.origin + (ray.direction * distance);
