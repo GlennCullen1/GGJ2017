@@ -6,7 +6,7 @@ public class ScoreManager : MonoBehaviour {
 
 	public int[] playerScores;
 	public Text[] playerScoreOutput;
-
+	public int maxScore = 1000;
 	// Use this for initialization
 	void Start () {
 		playerScores = new int[4];
@@ -22,7 +22,7 @@ public class ScoreManager : MonoBehaviour {
 		if (playerID - 1 > -1) {
 			playerScores [playerID - 1] += increaseValue;
 			playerScoreOutput [playerID - 1].text = playerScores [playerID - 1].ToString();
-			if (playerScores [playerID - 1] >= 1000) {
+			if (playerScores [playerID - 1] >= maxScore) {
 				GameObject manager = GameObject.FindGameObjectWithTag ("Manager");
 				if (manager != null) {
 					manager.GetComponent<GameStateManager> ().EndGame (playerID);
