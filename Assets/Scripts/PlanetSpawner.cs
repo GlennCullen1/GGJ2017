@@ -4,7 +4,7 @@ using System.Collections;
 public class PlanetSpawner : MonoBehaviour
 {
 
-	public GameObject spawnObject;
+	public GameObject[] spawnObject;
 	public float rateOfSpawn=0.5f; //spawn every 0.5 seconds
 	private float timer=0;
 	private float mintime=0.3f;
@@ -24,7 +24,7 @@ public class PlanetSpawner : MonoBehaviour
 			Vector3 rndPosWithin;
 			rndPosWithin = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 			rndPosWithin = transform.TransformPoint(rndPosWithin * .5f);
-			GameObject obj = (GameObject)Instantiate(spawnObject, rndPosWithin, transform.rotation);
+			GameObject obj = (GameObject)Instantiate(spawnObject[Random.Range(0,spawnObject.Length)], rndPosWithin, transform.rotation);
 			obj.GetComponent<Planet> ().spawnPosition = rndPosWithin;
 			activePlanets++;
 			timer = 0;

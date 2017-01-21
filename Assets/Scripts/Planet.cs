@@ -13,6 +13,8 @@ public class Planet : MonoBehaviour {
 	public Vector3 spawnPosition;
 	public GameObject LargeAsteroid;
 	public GameObject SmallAsteroid;
+	public GameObject RockExplosion;
+
 	GameObject currentAsteroid;
 	ScoreManager scoreManager; 
 	bool beingDestroyed = false;
@@ -120,24 +122,35 @@ public class Planet : MonoBehaviour {
 		if (health < 20 && health >10 && state != PlanetState.LargeAsteroid) {
 			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			state = PlanetState.LargeAsteroid;
+			gameObject.transform.localScale = Vector3.one;
+
 			currentAsteroid = (GameObject)Instantiate (LargeAsteroid, transform.position, Quaternion.identity);
+			currentAsteroid.transform.localScale = new Vector3 (100, 100, 100);
 			currentAsteroid.transform.parent = gameObject.transform;
-			currentAsteroid.transform.localScale = new Vector3 (1, 1, 1);
+
+			GameObject explosion = (GameObject)Instantiate (RockExplosion, transform.position + new Vector3(0,3,0), Quaternion.identity);
+			Destroy (explosion, 5.0f);
 			//currentAsteroid.transform.localPosition = Vector3.zero;
-			GetComponent<SphereCollider> ().radius = 0.0032f;
+			GetComponent<SphereCollider> ().radius = 0.32f;
 
 		} else if (health < 10 && state != PlanetState.SmallAsteroid) {
 			state = PlanetState.SmallAsteroid;
 			Destroy (currentAsteroid);
 			currentAsteroid = (GameObject)Instantiate (SmallAsteroid, transform.position, Quaternion.identity);
 			currentAsteroid.transform.parent = gameObject.transform;
-			currentAsteroid.transform.localScale = new Vector3 (2, 2, 2);
+			currentAsteroid.transform.localScale = new Vector3 (200, 200, 200);
 			//currentAsteroid.transform.localPosition = Vector3.zero;
-			GetComponent<SphereCollider> ().radius = 0.0018f;
+			GameObject explosion = (GameObject)Instantiate (RockExplosion, transform.position + new Vector3(0,3,0), Quaternion.identity);
+			explosion.transform.localScale = explosion.transform.localScale * 0.5f;
+			Destroy (explosion, 5.0f);
+			GetComponent<SphereCollider> ().radius = 0.18f;
 		}
 
 		if (health == 0) {
 			GameObject.FindGameObjectWithTag ("SpawnArea").GetComponent<PlanetSpawner> ().PlanetDestroyed ();
+			GameObject explosion = (GameObject)Instantiate (RockExplosion, transform.position + new Vector3(0,3,0), Quaternion.identity);
+			explosion.transform.localScale = explosion.transform.localScale * 0.25f;
+			Destroy (explosion, 5.0f);
 			Destroy (gameObject);
 		}
 	}
