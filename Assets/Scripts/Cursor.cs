@@ -25,6 +25,13 @@ public class Cursor : MonoBehaviour
 			Vector3 posOffset = new Vector3 (transform.position.x, 0, transform.position.z);
 			CauseExplosionAtPoint (posOffset, 5.0f, 500.0f);
 		}
+
+		var pos = Camera.main.WorldToViewportPoint(transform.position);
+		pos.x = Mathf.Clamp01(pos.x);
+		pos.y = Mathf.Clamp01(pos.y);
+		transform.position = Camera.main.ViewportToWorldPoint(pos);
+
+
 	}
 
 	public void CauseExplosionAtPoint(Vector3 point, float explosionRadius, float power)
