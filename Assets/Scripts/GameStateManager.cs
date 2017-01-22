@@ -19,9 +19,15 @@ public class GameStateManager : MonoBehaviour
 
 	int clickCount = 0;
 
+	AudioBank audiobank;
+	AudioSource audioSource;
+
 	// Use this for initialization
 	void Start ()
 	{
+		audiobank = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioBank> ();
+		audioSource = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioSource> ();
+
 		TransitionToStart();
 	}
 	
@@ -59,6 +65,9 @@ public class GameStateManager : MonoBehaviour
 		StartScreenUI.SetActive (true);
 		StartScreenWaiting.SetActive (true);
 		StartScreenCountdown.SetActive (false);
+
+		audioSource.clip = audiobank.soundTrack;
+		audioSource.Play ();
 	}
 	void TransitionFromStart()
 	{
@@ -86,6 +95,9 @@ public class GameStateManager : MonoBehaviour
 		WinScreenUI[winnerID-1].SetActive (true);
 		scoreManager.ResetScores ();
 		activePlanets.resetPlanetTotal ();
+
+		audioSource.clip = audiobank.manicalLaugh;
+		audioSource.Play ();
 
 	}
 	void TransitionFromWin()

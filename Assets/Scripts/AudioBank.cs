@@ -4,16 +4,12 @@ using System.Collections;
 public class AudioBank : MonoBehaviour
 {
 
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
+	public AudioClip soundTrack;
+
+	public AudioClip[] planetEatingSounds;
+
+	public AudioClip manicalLaugh;
+
+	public AudioClip blobble;
 }
 

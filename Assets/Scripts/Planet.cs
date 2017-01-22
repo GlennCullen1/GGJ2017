@@ -20,6 +20,10 @@ public class Planet : MonoBehaviour {
 	bool beingDestroyed = false;
 	Rigidbody rb;
 	Vector3 InitialScale;
+
+	AudioClip audioClip;
+	public GameObject AudioOutputPrefab;
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody> ();
@@ -31,6 +35,10 @@ public class Planet : MonoBehaviour {
 		transform.position = new Vector3 (0, 0, 0);
 		rb.angularVelocity = new Vector3(0,0,Random.Range (0.5f, 2f));
 		StartCoroutine (Spawn ());
+
+		//audioSource = GetComponent<AudioSource> ();
+		AudioClip[] clips = GameObject.FindGameObjectWithTag ("Audio").GetComponent<AudioBank> ().planetEatingSounds;
+		audioClip = clips[Random.Range(0,clips.Length)];
 	}
 
 	void Update()
@@ -151,6 +159,11 @@ public class Planet : MonoBehaviour {
 			GameObject explosion = (GameObject)Instantiate (RockExplosion, transform.position + new Vector3(0,3,0), Quaternion.identity);
 			explosion.transform.localScale = explosion.transform.localScale * 0.25f;
 			Destroy (explosion, 5.0f);
+
+			GameObject obj = (GameObject)Instantiate(AudioOutputPrefab, transform.position, Quaternion.identity);
+			obj.GetComponent<AudioSource> ().PlayOneShot (audioClip);
+			Destroy (obj, 5.0F);
+
 			Destroy (gameObject);
 		}
 	}
