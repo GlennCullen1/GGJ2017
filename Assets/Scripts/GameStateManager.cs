@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum  GameState {Start,Game,Win};
 
@@ -11,13 +12,14 @@ public class GameStateManager : MonoBehaviour
 	public GameObject StartScreenWaiting;
 	public GameObject StartScreenCountdown;
 	public GameObject StartScreenUI;
-	public int ConnectedPlayers = 0;
+	public List<int> ConnectedPlayers = new List<int>();    //List of the player ids
 	bool countdown = false;
 	GameObject WinScreenUI;
 	// Use this for initialization
 	void Start ()
 	{
-		TransitionToStart();
+        ConnectedPlayers = new List<int>();
+        TransitionToStart();
 	}
 	
 	// Update is called once per frame
@@ -25,8 +27,8 @@ public class GameStateManager : MonoBehaviour
 	{
 		switch (currentState) {
 		case GameState.Start:
-			waitingPlayers.text = ConnectedPlayers.ToString ();
-			if (ConnectedPlayers >= 4 && !countdown) {
+			waitingPlayers.text = ConnectedPlayers.Count.ToString ();
+			if (ConnectedPlayers.Count >= 4 && !countdown) {
 				StartCoroutine (CountDown ());
 			}
 			break;

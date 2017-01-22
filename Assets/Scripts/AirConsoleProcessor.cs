@@ -7,12 +7,15 @@ using UnityEngine;
 public class AirConsoleProcessor : MonoBehaviour {
 
     public TestExplosionOnClick explosionScript;
+    public GameStateManager manager;
 
 	// Use this for initialization
 	void Awake () {
         AirConsole.instance.onReady += OnReady;
         AirConsole.instance.onMessage += OnMessage;
-	}
+        AirConsole.instance.onConnect += OnConnect;
+        AirConsole.instance.onDisconnect += OnDisconnect;
+    }
 
     void OnReady(string code)
     {
@@ -43,7 +46,33 @@ public class AirConsoleProcessor : MonoBehaviour {
             default:
                 break;
         }
+    }
 
-        //Debug.Log("Recieved message from " + from + ": " + (string)data);
+    void OnConnect(int device_id)
+    {
+        Debug.Log("CONNECTED PLAYER1: " + AirConsole.instance.GetControllerDeviceIds()[0] + " DeviceID: " + device_id);
+
+        if (manager.ConnectedPlayers == null)
+            manager.ConnectedPlayers = new List<int>();
+        /*manager.ConnectedPlayers.Clear();
+        foreach(int playerID in AirConsole.instance.GetControllerDeviceIds())
+        {
+            manager.ConnectedPlayers.Add(playerID);
+        }*/
+
+        manager.ConnectedPlayers = AirConsole.instance.GetControllerDeviceIds();
+
+        var message = new
+        {
+            action = "playerConnect",
+            playerId = manager.ConnectedPlayers.IndexOf(device_id)
+        };
+
+        AirConsole.instance.Message(device_id, message);
+    }
+
+    void OnDisconnect(int device_id)
+    {
+        manager.ConnectedPlayers = AirConsole.instance.GetControllerDeviceIds();
     }
 }

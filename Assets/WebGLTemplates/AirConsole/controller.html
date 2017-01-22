@@ -75,16 +75,22 @@
   
   <script type="text/javascript">
 
-    var airconsole;
+      var airconsole;
+      var playerId;
     /**
      * Sets up the communication to the screen.
      */
     function App() {
       var me = this;
       me.airconsole = new AirConsole({"orientation": "portrait", "synchronize_time" : "true"});
-      me.airconsole.onMessage = function(from, data) {
-        console.log("onMessage", from, data);
-        document.getElementById("content").innerHTML = "device " + from + " says: " + data;
+
+      me.airconsole.onMessage = function (from, data) {
+          if (data.action == "playerConnect") {
+              playerId = data.playerId;
+          }
+          //playerId = data;
+        //console.log("onMessage", from, data);
+        //getElementById("content").innerHTML = "device " + from + " says: " + data;
       };
       
       me.airconsole.onReady = function(code) {
