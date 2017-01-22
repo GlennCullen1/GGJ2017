@@ -12,6 +12,7 @@ public class GameStateManager : MonoBehaviour
 	public GameObject StartScreenWaiting;
 	public GameObject StartScreenCountdown;
 	public GameObject StartScreenUI;
+    public int[] ActivePlayers = new int[4];
 	public List<int> ConnectedPlayers = new List<int>();    //List of the player ids
 	bool countdown = false;
 	GameObject WinScreenUI;
@@ -19,6 +20,10 @@ public class GameStateManager : MonoBehaviour
 	void Start ()
 	{
         ConnectedPlayers = new List<int>();
+        ActivePlayers[0] = -1;
+        ActivePlayers[1] = -1;
+        ActivePlayers[2] = -1;
+        ActivePlayers[3] = -1;
         TransitionToStart();
 	}
 	

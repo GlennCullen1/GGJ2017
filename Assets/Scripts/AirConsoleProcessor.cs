@@ -54,18 +54,25 @@ public class AirConsoleProcessor : MonoBehaviour {
 
         if (manager.ConnectedPlayers == null)
             manager.ConnectedPlayers = new List<int>();
-        /*manager.ConnectedPlayers.Clear();
-        foreach(int playerID in AirConsole.instance.GetControllerDeviceIds())
-        {
-            manager.ConnectedPlayers.Add(playerID);
-        }*/
 
         manager.ConnectedPlayers = AirConsole.instance.GetControllerDeviceIds();
+
+        //Attempt to add player as active
+        int playerID = -1;
+        for(int i = 0; i < manager.ActivePlayers.Length; i++)
+        {
+            if(manager.ActivePlayers[i] == -1)
+            {
+                //Add active player
+                manager.ActivePlayers[i] = device_id;
+                break;
+            }
+        }
 
         var message = new
         {
             action = "playerConnect",
-            playerId = manager.ConnectedPlayers.IndexOf(device_id)
+            playerId = playerID
         };
 
         AirConsole.instance.Message(device_id, message);
