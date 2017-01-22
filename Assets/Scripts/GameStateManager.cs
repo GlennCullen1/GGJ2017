@@ -20,6 +20,7 @@ public class GameStateManager : MonoBehaviour
 	void Start ()
 	{
         ConnectedPlayers = new List<int>();
+        ActivePlayers = new int[4];
         ActivePlayers[0] = -1;
         ActivePlayers[1] = -1;
         ActivePlayers[2] = -1;

@@ -65,6 +65,7 @@ public class AirConsoleProcessor : MonoBehaviour {
             {
                 //Add active player
                 manager.ActivePlayers[i] = device_id;
+                playerID = i;
                 break;
             }
         }

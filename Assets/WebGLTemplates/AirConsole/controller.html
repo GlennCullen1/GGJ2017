@@ -86,7 +86,26 @@
 
       me.airconsole.onMessage = function (from, data) {
           if (data.action == "playerConnect") {
-              playerId = data.playerId;
+              //playerId = data.playerId;
+			  document.getElementById("content").innerHTML = "My ID is: " + data.playerId;
+			  
+			  switch(data.playerId){
+				case -1:
+					document.getElementById("bgimg").src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBackground.png";
+					break;
+				case 0:
+					document.getElementById("bgimg").src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBGP1.png";
+					break;
+				case 1:
+					document.getElementById("bgimg").src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBGP2.png";
+					break;
+				case 2:
+					document.getElementById("bgimg").src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBGP3.png";
+					break;
+				case 3:
+					document.getElementById("bgimg").src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBGP4.png";
+					break;
+			  }
           }
           //playerId = data;
         //console.log("onMessage", from, data);
@@ -255,7 +274,7 @@
 
     <div class="div-fillscreen" id="pointer_div" onclick="window.app.point_it(event)">
         <!--<button class="button button-fit" id="pointer_div" onclick="window.app.point_it(event)">LOCATION BUTTON</button>-->
-        <img class="make-it-fit" src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBackground.png" />
+        <img class="make-it-fit" id="bgimg" src="http://nashdevsoft.co.uk/games/HHST/images/PhoneBackground.png" />
     </div>
 
     <div id ="profile-pic"></div>
