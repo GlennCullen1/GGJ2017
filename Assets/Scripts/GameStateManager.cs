@@ -13,7 +13,12 @@ public class GameStateManager : MonoBehaviour
 	public GameObject StartScreenUI;
 	public int ConnectedPlayers = 0;
 	bool countdown = false;
-	GameObject WinScreenUI;
+	public GameObject[] WinScreenUI;
+	public PlanetSpawner activePlanets;
+	public ScoreManager scoreManager;
+
+	int clickCount = 0;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -33,12 +38,22 @@ public class GameStateManager : MonoBehaviour
 		case GameState.Game:
 			break;
 		case GameState.Win:
+			if (Input.GetMouseButtonDown (0)) {
+				clickCount++;
+
+			}
+			if (clickCount > 2) {
+				TransitionFromWin ();
+				TransitionToStart ();
+				clickCount = 0;
+			}
 			break;
 		}
 	}
 
 	void TransitionToStart()
 	{
+		currentState = GameState.Start;
 		countdown = false;
 		Time.timeScale = 0;
 		StartScreenUI.SetActive (true);
@@ -51,20 +66,33 @@ public class GameStateManager : MonoBehaviour
 	}
 	void TransitionToGame()
 	{
+		currentState = GameState.Game;
 		Time.timeScale = 1;
 	}
 	void TransitionFromGame()
 	{
+		//clean up planets
+		GameObject[] planets = GameObject.FindGameObjectsWithTag ("Planet");
+		foreach (GameObject obj in planets) {
+			Destroy (obj);
+		}
 
+		
 	}
 	void TransitionToWin(int winnerID)
 	{
+		currentState = GameState.Win;
 		Time.timeScale = 0;
-		WinScreenUI.SetActive (true);
+		WinScreenUI[winnerID-1].SetActive (true);
+		scoreManager.ResetScores ();
+		activePlanets.resetPlanetTotal ();
+
 	}
 	void TransitionFromWin()
 	{
-		WinScreenUI.SetActive (false);
+		foreach (GameObject obj in WinScreenUI) {
+			obj.SetActive (false);
+		}
 	}
 
 	IEnumerator CountDown()

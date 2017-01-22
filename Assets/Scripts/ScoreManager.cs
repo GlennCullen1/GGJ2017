@@ -7,9 +7,11 @@ public class ScoreManager : MonoBehaviour {
 	public int[] playerScores;
 	public Text[] playerScoreOutput;
 	public int maxScore = 1000;
+	public ScoreZone[] scoreZones;
 	// Use this for initialization
 	void Start () {
 		playerScores = new int[4];
+
 	}
 	
 	// Update is called once per frame
@@ -30,6 +32,17 @@ public class ScoreManager : MonoBehaviour {
 			}
 		} else {
 			Debug.Log ("Error, failed to zero index player ID correctly");
+		}
+	}
+
+	public void ResetScores()
+	{
+		for (int cnt = 0; cnt < playerScores.Length; cnt++) {
+			playerScores[cnt] = 0;
+		}
+
+		foreach (ScoreZone zone in scoreZones) {
+			zone.ResetSpeed ();
 		}
 	}
 }

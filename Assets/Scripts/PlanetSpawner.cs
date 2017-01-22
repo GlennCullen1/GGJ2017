@@ -35,5 +35,10 @@ public class PlanetSpawner : MonoBehaviour
 	{
 		activePlanets--;
 	}
+
+	public void resetPlanetTotal()
+	{
+		activePlanets = 0;
+	}
 }
 
