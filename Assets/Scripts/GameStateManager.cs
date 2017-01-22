@@ -44,7 +44,7 @@ public class GameStateManager : MonoBehaviour
 		case GameState.Game:
 			break;
 		case GameState.Win:
-			if (Input.GetMouseButtonDown (0)) {
+			if (Input.GetMouseButtonDown (0)||Input.GetButtonDown("P1A")||Input.GetButtonDown("P2A")||Input.GetButtonDown("P3A")||Input.GetButtonDown("P4A")) {
 				clickCount++;
 
 			}
@@ -104,6 +104,11 @@ public class GameStateManager : MonoBehaviour
 	{
 		foreach (GameObject obj in WinScreenUI) {
 			obj.SetActive (false);
+		}
+
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player")) {
+
+			obj.GetComponent<Cursor> ().ResetPosition ();
 		}
 	}
 
